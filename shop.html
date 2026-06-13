@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link rel="icon" sizes="16x16" href="image/icon.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Internal Styles -->
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: #fefbfb; overflow-x: hidden; }
+
+        /* --- Background/Custom Colors --- */
+        .bg-streets-dark { background-color: #000000 !important; }
+        .bg-streets-light { background-color: #e8e8e8; }
+        .text-streets-pink { color: #b5b4bb !important; }
+        .text-streets-link { color: #fefbfb !important; }
+        .text-streets-link:hover { color: #939292 !important; }
+
+        /* --- Navbar --- */
+        .navbar-toggler { background-color: #929c94; }
+        .dropdown-menu-custom { background-color: #333333; border: none; }
+        .dropdown-menu-custom .dropdown-item { color: #fefbfb; }
+        .dropdown-menu-custom .dropdown-item:hover { background-color: #939292; color: #f4edeb; }
+
+        /* --- Product Cards --- */
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            height: 100%; /* Makes cards same height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-card img { max-height: 200px; object-fit: contain; margin-bottom: 15px; }
+        .price { font-weight: bold; color: #a37e7e; }
+        .old-price { text-decoration: line-through; color: #999; font-size: 0.9em; }
+        
+        /* --- Add to Cart --- */
+        .add-to-cart {
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        .add-to-cart:hover { background-color:  #bfbdbc; color: #000000 }
+
+       	/* --- Back To Top Button --- */
+        #myBtn {
+            display: none; 
+            position: fixed; 
+            bottom: 20px; 
+            right: 30px; 
+            z-index: 99; 
+            border: none; 
+            outline: none; 
+            background-color: #cecaca; 
+            color: rgb(1, 1, 1); 
+            cursor: pointer; 
+            padding: 6px 14px; 
+            border-radius: 50%; 
+            font-size: 18px; 
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3); 
+            transition: 0.3s; 
+        }
+
+        #myBtn:hover {
+            background-color: #5f5e5e; 
+            transform: scale(1.1); 
+        }
+
+        /* --- Slideshow Fix: Hides all slides --- */
+        .mySlides {
+            display: none;
+        }
+
+        /* --- Footer Hover Image --- */
+        .image-tw-hover {
+            width: 25px; 
+            height: 25px; 
+            background-image: url('image/twitter2.png'); 
+            background-size: cover; 
+            transition: background-image 0.5s ease-in-out; 
+            display: inline-block;
+        }
+        .image-tw-hover:hover {
+            background-image: url('image/twitter.png'); 
+        }
+
+        .image-ig-hover {
+            width: 25px; 
+            height: 25px; 
+            background-image: url('image/instagram2.png'); 
+            background-size: cover; 
+            transition: background-image 0.5s ease-in-out; 
+            display: inline-block;
+        }
+        .image-ig-hover:hover {
+            background-image: url('image/instagram.png'); 
+        }
+
+        .image-tt-hover {
+            width: 25px; 
+            height: 25px; 
+            background-image: url('image/tiktok2.png'); 
+            background-size: cover; 
+            transition: background-image 0.5s ease-in-out; 
+            display: inline-block;
+        }
+        .image-tt-hover:hover {
+            background-image: url('image/tiktok.png'); 
+        }
+
+        .image-yt-hover {
+            width: 25px; 
+            height: 25px; 
+            background-image: url('image/youtube2.png'); 
+            background-size: cover; 
+            transition: background-image 0.5s ease-in-out; 
+            display: inline-block;
+        }
+        .image-yt-hover:hover {
+            background-image: url('image/youtube.png'); 
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="bg-streets-dark shadow-lg sticky-top z-3">
+
+        <!-- Navigation Bar (Top) -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-streets-dark">
+            <div class="container">
+                
+                <!-- Logo -->
+                <a class="navbar-brand" href="index.html">
+                    <img src="image/logo.png" alt="Logo" style="width: 80px; height: auto;">
+                </a>
+
+                <!-- Mobile Toggle Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navigation Links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center">
+                        <li class="nav-item"><a class="nav-link text-streets-link mx-2 fw-bold" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-streets-link mx-2 fw-bold" href="about.html">About Us</a></li>
+
+                        <!-- Shop Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-streets-link mx-2 fw-bold" href="shop.html" role="button" data-bs-toggle="dropdown">Shop</a>
+                            <ul class="dropdown-menu dropdown-menu-custom">
+                                <li><a class="dropdown-item fw-bold" href="shop.html#clothes">Clothes</a></li>
+                                <li><a class="dropdown-item fw-bold" href="shop.html#accessory">Accessory</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link text-streets-link mx-2 fw-bold" href="contact.html">Contact</a></li>
+                    </ul>
+
+                    <!-- Login & Cart Icon -->
+                    <div class="d-flex justify-content-center align-items-center mt-3 mt-lg-0">
+                        <a href="login.html">
+                            <img src="image/login.png" alt="Cart" class="mx-2" style="width: 25px; cursor: pointer;">
+                        </a>
+                        <a href="cart.html">
+                            <img src="image/shopping.png" alt="Cart" class="mx-2" style="width: 25px; cursor: pointer;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container my-4">
+        
+    <!-- Slideshow Section -->
+    <div class="container my-5">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade shadow-lg rounded overflow-hidden" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="ratio ratio-16x9"> 
+                        <video autoplay muted loop class="d-block w-100 object-fit-cover">
+                            <source src="video-shop/video3.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                
+                <div class="carousel-item">
+                    <div class="ratio ratio-16x9">
+                        <img src="image/shop-slide.jpg" class="d-block w-100 object-fit-cover" alt="Slide 2">
+                    </div>
+                </div>
+                
+                <div class="carousel-item">
+                    <div class="ratio ratio-16x9">
+                        <img src="image/slide4.jpg" class="d-block w-100 object-fit-cover" alt="Slide 3">
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Next/Previous Button for Slide -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    <!-- Clothes Section -->
+    <section id="clothes" class="bg-light p-4 rounded mb-5">
+        <h2 class="text-center text-secondary mb-4 fw-bold">CLOTHES</h2>
+            <div class="row g-4">
+
+                <!-- Product 1 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/product2.png" alt="Health" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Health</h4>
+                            <p class="small text-muted">Color: Black | Size: S-XL</p>
+                            <p class="price">80.00 RM <span class="old-price">110.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Health', 80.00)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/product3.png" alt="Low Gravity" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Low Gravity</h4>
+                            <p class="small text-muted">Color: Brown | Size: S-XL</p>
+                            <p class="price">120.00 RM <span class="old-price">150.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Low Gravity', 120.00)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/product4.png" alt="Imaginary Race" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Imaginary Race</h4>
+                            <p class="small text-muted">Color: White/Black | Size: S-XL</p>
+                            <p class="price">190.00 RM <span class="old-price">250.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Imaginary Race', 190.00)">Add to Cart</button>
+                    </div>
+                </div>
+                
+                 <!-- Product 4 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/product5.png" alt="Death Adder" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Death Adder</h4>
+                            <p class="small text-muted">Color: Black | Size: S-XL</p>
+                            <p class="price">100.00 RM <span class="old-price">150.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Death Adder', 100.00)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/product6.png" alt="White Membrane" class="img-fluid">
+                        <div class="product-info">
+                            <h4>White Membrane</h4>
+                            <p class="small text-muted">Color: Black | Size: S-L</p>
+                            <p class="price">180.00 RM <span class="old-price">220.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('White Membrane', 180.00)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/product1.png" alt="Red Star" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Red Star</h4>
+                            <p class="small text-muted">Color: Black | Size: S-XL</p>
+                            <p class="price">100.00 RM <span class="old-price">130.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Red Star', 100.00)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- Accessory Section -->
+    <section id="accessory" class="bg-light p-4 rounded">
+        <h2 class="text-center text-secondary mb-4 fw-bold">ACCESSORY</h2>
+            <div class="row g-4">
+                
+                <!-- Item 1 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/accessory1.png" alt="Reverse Trip" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Reverse Trip</h4>
+                            <p class="small text-muted">Color: Brown</p>
+                            <p class="price">190.00 RM <span class="old-price">350.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Reverse Trip', 190.00)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/accessory2.png" alt="Starstruck" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Starstruck</h4>
+                            <p class="small text-muted">Color: Black</p>
+                            <p class="price">150.00 RM <span class="old-price">250.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Starstruck', 150.00)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/accessory3.png" alt="Snow Traverse" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Snow Traverse</h4>
+                            <p class="small text-muted">Color: Brown</p>
+                            <p class="price">200.00 RM <span class="old-price">400.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Snow Traverse', 200.00)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/accessory4.png" alt="Chrome Serpent" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Chrome Serpent</h4>
+                            <p class="small text-muted">Color: Silver</p>
+                            <p class="price">85.00 RM <span class="old-price">120.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Chrome Serpent', 85.00)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/accessory5.png" alt="Astral Mirror" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Astral Mirror</h4>
+                            <p class="small text-muted">Color: Silver</p>
+                            <p class="price">65.00 RM <span class="old-price">100.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Astral Mirror', 65.00)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/accessory6.png" alt="Six Possibilities" class="img-fluid">
+                        <div class="product-info">
+                            <h4>Six Possibilities</h4>
+                            <p class="small text-muted">Color: Silver</p>
+                            <p class="price">50.00 RM <span class="old-price">95.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Six Possibilities', 50.00)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+    </section>
+    </main>
+
+    <!-- Footer Hover Image -->
+    <footer class="bg-streets-dark text-white pt-5 pb-3">
+        <div class="container">
+            <div class="row gy-4 text-center text-md-start">
+                <div class="col-12 col-md-4">
+                    <h5 class="text-streets-pink mb-3 fw-bold">Useful Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-decoration-none text-streets-link">Home</a></li>
+                        <li><a href="about.html" class="text-decoration-none text-streets-link">About us</a></li>
+                        <li><a href="shop.html" class="text-decoration-none text-streets-link">Our Product</a></li>
+                        <li><a href="contact.html" class="text-decoration-none text-streets-link">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-4">
+                    <h5 class="text-streets-pink mb-3 fw-bold">Service</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-streets-link">Order Guide</a></li>
+                        <li><a href="#" class="text-decoration-none text-streets-link">Right of Withdrawal</a></li>
+                        <li><a href="#" class="text-decoration-none text-streets-link">Shipping & Payment</a></li>
+                        <li><a href="#" class="text-decoration-none text-streets-link">Return Policy</a></li>
+                        <li><a href="#" class="text-decoration-none text-streets-link">Term & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-4">
+                    <h5 class="text-streets-pink mb-3 fw-bold">Follow Us</h5>
+                       <div class="d-flex flex-column gap-3 align-items-center align-items-md-start">
+                            <a href="https://x.com/ameamsyr" target="_blank" title="Twitter" class="d-flex align-items-center text-decoration-none text-white">
+                                <div class="image-tw-hover me-2"></div> <span>Twitter</span>
+                            </a>
+                            <a href="https://www.instagram.com/ameamsyr/" target="_blank" title="Instagram" class="d-flex align-items-center text-decoration-none text-white">
+                                <div class="image-ig-hover me-2"></div> <span>Instagram</span>
+                            </a>
+                            <a href="https://www.tiktok.com/@ameamsyr?is_from_webapp=1&sender_device=pc" target="_blank" title="TikTok" class="d-flex align-items-center text-decoration-none text-white">
+                                <div class="image-tt-hover me-2"></div> <span>TikTok</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                    <div class="text-center small text-white-50 pt-4 mt-3 border-top border-secondary">
+                                &copy; 2025 ThriftLab. All rights reserved.
+                    <div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Button Back to top (Anchor) -->
+    <button onclick="topFunction()" id="myBtn" title="Go to top">&#8679;</button>
+
+    <!-- Cart Modal (Using Bootstrap Modal Structure) -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-streets-dark text-white">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title">Shopping Cart</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cart-items" class="mb-3" style="max-height: 300px; overflow-y: auto;"></div>
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Total:</span>
+                        <span id="cart-total">0.00 RM</span>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-success w-100">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar Dropdown for Mobile Responsive -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+
+        // Scroll to Top //
+        let mybutton = document.getElementById("myBtn");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                mybutton.style.display = "block";
+            } else { mybutton.style.display = "none"; }
+        };
+        function topFunction() { document.body.scrollTop = 0; document.documentElement.scrollTop = 0; }
+
+        // Slideshow //
+        window.onload = function() {
+            let slideIndex = 0;
+            showSlides();
+
+            function showSlides() {
+                let slides = document.getElementsByClassName("mySlides");
+                
+                // 1. Hide all slides
+                for (let i = 0; i < slides.length; i++) { 
+                    slides[i].style.display = "none"; 
+                }
+
+                // 2. Increment index and loop back to 1 if it exceeds the length
+                slideIndex++;
+                if (slideIndex > slides.length) { 
+                    slideIndex = 1; // Reset to the first slide index (1-based count)
+                }    
+                
+                // 3. Display the current slide (index is slideIndex - 1 because arrays are 0-indexed)
+                slides[slideIndex - 1].style.display = "block";  
+                
+                // 4. Call showSlides again after 10 seconds
+                setTimeout(showSlides, 10000);
+            }
+        };
+
+        // Cart Logic //
+        function addToCart(name, price) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.name === name);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${name} has been added to the cart.`);
+        }
+    </script>
+</body>
+</html>

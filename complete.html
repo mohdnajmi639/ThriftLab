@@ -1,0 +1,217 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You!</title>
+
+	<link rel="icon" type="image/png" sizes="20x20" href="image/icon.png">
+
+    <!-- Internal Styles CSS -->
+    <style>
+
+        /* Body Style CSS */
+        body {
+            font-family: "Playfair Display", serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            overflow-x: hidden;
+            color: #333333;
+            text-align: center;
+            background: #333333;
+            padding: 50px;
+            color: #333333;
+        }
+
+        .thank-you-card {
+            background: #FFF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .thank-you-card h1 {
+            color: #333333;
+        }
+
+        .btn {
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            display: inline-block;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #1AAE5A;
+        }
+
+        /* Receipt CSS */
+        .receipt {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .receipt p {
+            margin: 5px 0;
+        }
+
+        /* Home Button Styling */
+        .home-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: black;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .home-button:hover {
+            background-color: #929c94;
+        }
+		
+		/* Popup Styling */
+		.popup {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+			animation: fadeIn 0.5s ease-out; /* Fade-in effect for background */
+		}
+
+		.popup-content {
+			background-color: #FFF;
+			padding: 30px;
+			border-radius: 15px;
+			text-align: center;
+			max-width: 400px;
+			width: 80%;
+			transform: scale(0);
+			animation: popupScale 0.5s ease-out forwards; /* Scaling effect */
+		}
+
+		/* Popup Animation */
+		@keyframes popupScale {
+			from {
+				transform: scale(0);
+			}
+			to {
+				transform: scale(1);
+			}
+		}
+
+		/* Animation fading background */
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
+        /* Popup Word Font */
+		.popup h2 {
+			color: #333333;
+			font-size: 2em;
+		}
+
+        /* Popup */
+		.popup button {
+			background-color: #333333;
+			color: #FFF;
+			border: none;
+			padding: 10px 20px;
+			font-size: 1.2em;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		.popup button:hover {
+			background-color: #929c94;
+		}
+
+		
+    </style>
+</head>
+<body>
+
+    <!-- Order Successful Body -->
+    <div class="thank-you-card">
+        <h1>Thank You!</h1>
+        <p>Your order has been successfully placed.</p>
+        <div class="receipt" id="order-details"></div>
+        <a class="btn" id="whatsapp-link" href="#" target="_blank">Text us on WhatsApp</a>
+    </div>
+
+    <!-- Home Button -->
+    <a href="index.html" class="home-button" title="Go to Home">
+        🏠
+    </a>
+	
+	<!-- Popup -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <h2>Thankyou For Shopping With Us!</h2>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve order details from localStorage
+        const orderReceipt = JSON.parse(localStorage.getItem('orderReceipt'));
+
+        if (!orderReceipt) {
+            document.body.innerHTML = '<h2>No order details found! Please complete your order first.</h2>';
+        } else {
+            // Display order details
+            const orderDetails = document.getElementById('order-details');
+            let detailsHTML = `<p><strong>Order Number:</strong> ${orderReceipt.orderNumber}</p>`;
+            detailsHTML += `<p><strong>Items:</strong></p>`;
+            orderReceipt.cart.forEach(item => {
+                detailsHTML += `<p>${item.name} - RM ${item.price.toFixed(2)}</p>`;
+            });
+            detailsHTML += `<p><strong>Total:</strong> RM ${orderReceipt.total.toFixed(2)}</p>`;
+            orderDetails.innerHTML = detailsHTML;
+
+            // Create WhatsApp link
+            const whatsappLink = document.getElementById('whatsapp-link');
+            const message = `Order Receipt:\nOrder Number: ${orderReceipt.orderNumber}\n` +
+                orderReceipt.cart.map(item => `${item.name} - RM ${item.price.toFixed(2)}`).join('\n') +
+                `\nTotal: RM ${orderReceipt.total.toFixed(2)}`;
+            whatsappLink.href = `https://wa.me/60146993203?text=${encodeURIComponent(message)}`;
+        }
+		
+		 // Show the popup on page load
+        window.onload = function() {
+            document.getElementById("popup").style.display = "flex";
+        };
+
+        // Close the popup
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+    </script>
+</body>
+</html>
+
+
+

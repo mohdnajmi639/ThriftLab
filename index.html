@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThriftLab</title>
+	
+    <link rel="icon" sizes="32x32" href="image/icon.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manufacturing+Consent&display=swap" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Internal Styles -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* --- Prevent horizontal scroll --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fefbfb;
+            overflow-x: hidden;
+        }
+
+        /* --- Background/Custom Colors --- */
+        .bg-streets-dark { background-color: #000000 !important; }
+        .bg-streets-light { background-color: #e8e8e8; }
+        .text-streets-pink { color: #b5b4bb !important; }
+        .text-streets-link { color: #fefbfb !important; }
+        .text-streets-link:hover { color: #939292 !important; }
+
+        /* --- Navbar --- */
+        .navbar-toggler { background-color: #929c94; }
+        .dropdown-menu-custom { background-color: #333333; border: none; }
+        .dropdown-menu-custom .dropdown-item { color: #fefbfb; }
+        .dropdown-menu-custom .dropdown-item:hover { background-color: #939292; color: #f4edeb; }
+
+        /* --- Popup --- */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(152, 148, 148);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            z-index: 9999;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            border: 2px solid #000000;
+        }
+
+        .popup-button {
+            background-color: #f7f6f6;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* --- Background Image --- */
+		body {
+    	font-family: 'Poppins', sans-serif;
+    	background-image: url('image/background1.jpg'); 
+    	background-size: cover; 
+    	background-repeat: no-repeat; 
+   		background-attachment: fixed;
+		}
+
+        /* --- Product Cards --- */
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+        .product-card:hover { transform: translateY(-5px); }
+        .price { font-weight: bold; color: #a37e7e; }
+        .old-price { text-decoration: line-through; color: #999; font-size: 0.9em; margin-left: 5px; }
+        .add-to-cart {
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .add-to-cart:hover { background-color: #bfbdbc; color: #000000; }
+
+        /* --- SVG ThrifLab Banner --- */
+        .hero-container {
+            background-color: #dddadd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* --- Feedback Section --- */
+        .feedback-card {
+            position: relative;
+            padding: 20px;
+        }
+        .feedback-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            z-index: 0;
+            opacity: 0.5;
+        }
+        .feedback-img {
+            position: relative;
+            z-index: 1;
+            width: 150px;
+            border-radius: 50%;}
+
+        /* --- Music --- */
+        .music-control {
+            margin-top: 1px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .music-control button {
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 10px 13px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .music-control button:hover {background-color: #929c94;}
+        
+        /* Slider styling */
+        #volume-slider {
+            accent-color: #000000;
+            cursor: pointer;
+            width: 120px;
+        }
+        /* Slider styling */
+        #volume-slider {
+            accent-color: #000000; 
+            cursor: pointer;
+            width: 100px;
+        }
+
+		/* --- Back To Top Button --- */
+        #myBtn {
+            display: none; 
+            position: fixed; 
+            bottom: 20px; 
+            right: 30px; 
+            z-index: 99; 
+            border: none; 
+            outline: none; 
+            background-color: #cecaca; 
+            color: rgb(1, 1, 1); 
+            cursor: pointer; 
+            padding: 6px 14px; 
+            border-radius: 50%; 
+            font-size: 18px; 
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3); 
+            transition: 0.3s; 
+        }
+
+        #myBtn:hover {
+            background-color: #5f5e5e; 
+            transform: scale(1.1); 
+        }
+
+        /* --- Footer Hover Image --- */
+        .image-tw-hover {
+            width: 25px; 
+            height: 25px; 
+            background-image: url('image/twitter2.png'); 
+            background-size: cover; 
+            transition: background-image 0.5s ease-in-out; 
+            display: inline-block;
+        }
+        .image-tw-hover:hover {
+            background-image: url('image/twitter.png'); 
+        }
+
+        .image-ig-hover {
+            width: 25px; 
+            height: 25px; 
+            background-image: url('image/instagram2.png'); 
+            background-size: cover; 
+            transition: background-image 0.5s ease-in-out; 
+            display: inline-block;
+        }
+        .image-ig-hover:hover {
+            background-image: url('image/instagram.png'); 
+        }
+
+        .image-tt-hover {
+            width: 25px; 
+            height: 25px; 
+            background-image: url('image/tiktok2.png'); 
+            background-size: cover; 
+            transition: background-image 0.5s ease-in-out; 
+            display: inline-block;
+        }
+        .image-tt-hover:hover {
+            background-image: url('image/tiktok.png'); 
+        }
+
+        .image-yt-hover {
+            width: 25px; 
+            height: 25px; 
+            background-image: url('image/youtube2.png'); 
+            background-size: cover; 
+            transition: background-image 0.5s ease-in-out; 
+            display: inline-block;
+        }
+        .image-yt-hover:hover {
+            background-image: url('image/youtube.png'); 
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Popup -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <p style="font-size: 1.8em; color: #000000; font-family: 'Manufacturing Consent', cursive; margin-bottom: 10px;">
+                Welcome to <span style="font-weight: normal;">ThriftLab</span>!
+            </p>
+            <p style="font-size: 1em; font-family: 'Montserrat', sans-serif; color: #ffffff; margin: 0;">
+                <em>"Built From The Streets"</em>
+            </p>
+        </div>
+        <button class="popup-button" onclick="closePopup()">Close</button>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-streets-dark shadow-lg sticky-top z-3">
+        
+        <!-- Navigation Bar (Top) -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-streets-dark">
+            <div class="container">
+                
+                <!-- Logo -->
+                <a class="navbar-brand" href="index.html">
+                    <img src="image/logo.png" alt="Logo" style="width: 80px; height: auto;">
+                </a>
+                
+                <!-- Mobile Toggle Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <!-- Navigation Links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item"><a class="nav-link text-streets-link mx-2 fw-bold" href="index.html">Home</a></li>
+                    <li class="nav-item"></li>
+                    <a class="nav-link text-streets-link mx-2 fw-bold" href="about.html">About Us</a></li>
+                
+                <!-- Navbar Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-streets-link mx-2 fw-bold" href="shop.html" role="button" data-bs-toggle="dropdown">Shop</a>
+                    <ul class="dropdown-menu dropdown-menu-custom">
+                        <li><a class="dropdown-item fw-bold" href="shop.html#clothes">Clothes</a></li>
+                        <li><a class="dropdown-item fw-bold" href="shop.html#accessory">Accessory</a></li>
+                        </ul>
+                    </li>
+                        <li class="nav-item"><a class="nav-link text-streets-link mx-2 fw-bold" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+                
+                <!-- Login & Cart Icon -->
+                <div class="d-flex justify-content-center align-items-center mt-3 mt-lg-0">
+                    <a href="login.html">
+                        <img src="image/login.png" alt="Cart" class="mx-2" style="width: 25px; cursor: pointer;">
+                    </a>
+
+                    <a href="cart.html">
+                        <img src="image/shopping.png" alt="Cart" class="mx-2" style="width: 25px; cursor: pointer;">
+                    </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- SVG Hero ThriftLab Banner -->
+    <div class="container my-4">
+        <div class="hero-container p-4 text-center">
+            <svg viewBox="0 0 100 20" style="width: 100%; max-width: 800px; font-family: 'Manufacturing Consent'; font-weight: bold;">
+                <defs>
+                     <filter id="monochromeLayeredShift">
+                            
+                        <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="blackComp"/>
+                            
+                        <feColorMatrix type="matrix" values="0 0 0 0 0.3  0 0 0 0 0.3  0 0 0 0 0.3  0 0 0 1 0" result="darkGreyComp"/>
+                            
+                        <feColorMatrix type="matrix" values="0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 1 0" result="midGreyComp"/>
+
+                        <feOffset dx="1.5" in="blackComp" result="shiftBlack"/>
+                            
+                        <feOffset dx="-1.5" in="midGreyComp" result="shiftMidGrey"/>
+                            
+                        <feOffset dy="0" in="darkGreyComp" result="shiftDarkGrey">
+                            <animate attributeName="dx" values="0; 0.5; -0.5; 0" dur="0.15s" repeatCount="indefinite" />
+                        </feOffset>
+
+                        <feMerge>
+                        <feMergeNode in="shiftMidGrey"/>   <feMergeNode in="shiftDarkGrey"/>  <feMergeNode in="shiftBlack"/>     </feMerge>
+                    </filter>
+                </defs>
+                    
+                <text text-anchor="middle" x="50" y="15" font-size="20" fill="#222" fill-opacity="0.9"
+                        transform="scaleX(-1) translate(-100, 0)">ThriftLab</text>
+                    
+                <text text-anchor="middle" x="50" y="15" font-size="20" fill="#FFF" filter="url(#monochromeLayeredShift)"
+                        transform="scaleX(-1) translate(-100, 0)">ThriftLab</text>
+            </svg>
+        </div>
+    </div>
+    
+    <!-- Navigation Link (Top) -->
+    <div class="container mb-5">
+        <div class="bg-streets-dark rounded p-3 d-flex justify-content-center flex-wrap gap-4 shadow">
+            <a href="#new-arrivals" class="text-streets-link text-decoration-none fw-bold">New Arrivals</a>
+            <a href="#collab" class="text-streets-link text-decoration-none fw-bold">Collab</a>
+            <a href="#feedback" class="text-streets-link text-decoration-none fw-bold">Feedback</a>
+        </div>
+    </div>
+
+    <!-- New Arrival Section -->
+    <section id="new-arrivals" class="bg-streets-light py-5">
+
+    <!-- Music -->
+    <audio id="background-music" loop>
+        <source src="audio/SanAndreas.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Music Control -->
+    <div class="music-control">
+        <button id="toggle-music">Music On 🎸</button>
+        <div style="display: flex; align-items: center; gap: 5px;">
+            <span style="font-size: 1.2rem;">🔈</span>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+            <span style="font-size: 1.2rem;">🔊</span>
+        </div>
+    </div>
+    
+    <p></p>
+    
+        <!-- New Arrival Add to Cart (Top)-->
+        <div class="container">
+            <h2 class="text-center display-4 fw-bold mb-5" style="color: rgb(0, 0, 0);">New Arrivals</h2>
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/product3.png" alt="Low Gravity" class="img-fluid mb-3" style="max-height: 200px;">
+                        <div class="product-info">
+                            <h4>Low Gravity</h4>
+                            <p class="small text-muted">Color: Black | Size: S-XL | 100% Cotton</p>
+                            <p class="price">120.00 RM <span class="old-price">150.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Low Gravity', 100.00)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/product1.png" alt="Red Star" class="img-fluid mb-3" style="max-height: 200px;">
+                        <div class="product-info">
+                            <h4>Red Star</h4>
+                            <p class="small text-muted">Color: White | Size: S-XL | 100% Cotton</p>
+                            <p class="price">100.00 RM <span class="old-price">130.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Red Star', 120.00)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="product-card text-center">
+                        <img src="image/product4.png" alt="Imaginary Race" class="img-fluid mb-3" style="max-height: 200px;">
+                        <div class="product-info">
+                            <h4>Imaginary Race</h4>
+                            <p class="small text-muted">Color: White | Size: S-XL | 100% Cotton</p>
+                            <p class="price">190.00 RM <span class="old-price">250.00 RM</span></p>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('Imaginary Race', 100.00)">Add to Cart</button>
+                    </div>
+                </div>
+                </div>
+            <div class="text-center mt-5">
+                <a href="shop.html" class="btn btn-lg" style="background-color: #939292; color: white;">Show More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slider Image (Middle) -->
+    <div class="container my-5">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade shadow-lg rounded overflow-hidden" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="image/slide2.jpg" class="d-block w-100" alt="Slide 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="image/slide1.jpg" class="d-block w-100" alt="Slide 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="image/slide3.jpg" class="d-block w-100" alt="Slide 3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Upcoming Section (bottom) -->
+    <section id="collab" class="container my-5 text-center">
+        <div class="bg-light p-4 rounded shadow">
+            <h2 class="display-5 fw-bold text-dark mb-3">Upcoming <span style="color: #AC9362;">Collabs</span></h2>
+            <p class="lead text-muted mb-4">Discover our most recent partnership, which combines innovation and creativity.</p>
+            
+            <div class="position-relative mx-auto" style="max-width: 800px;">
+                <div class="ratio ratio-16x9 rounded overflow-hidden shadow">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/video2.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="position-absolute bottom-0 start-0 m-3 bg-white bg-opacity-75 p-2 rounded text-dark fw-bold shadow-sm">
+                    Collabs Teaser
+                </div>
+            </div>
+
+            <hr class="mx-auto my-4" style="width: 50px; height: 3px; background-color: #AC9362; opacity: 1;">
+            <p class="text-muted fst-italic">Curated by the community</p>
+        </div>
+    </section>
+
+    <!-- Feedback Section (bottom)-->
+    <section id="feedback" class="container my-5">
+        <h2 class="text-center display-4 fw-bold mb-5" style="color: #ffffff;">Feedback</h2>
+        <div class="row text-center g-4">
+            <div class="col-12 col-md-4">
+                <div class="feedback-card">
+                    <img class="feedback-bg" src="image/shape.png" alt="Shape">
+                    <img class="feedback-img shadow-sm" src="image/feedback1.png" alt="User 1">
+                    <div class="position-relative mt-3">
+                        <p class="text-warning fs-5">⭐⭐⭐⭐⭐</p>
+                        <p class="fst-italic" style="color: rgb(252, 252, 255);">"Hands down the best quality fits I've bought this year. The material is insane."</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="feedback-card">
+                    <img class="feedback-bg" src="image/shape.png" alt="Shape">
+                    <img class="feedback-img shadow-sm" src="image/feedback2.png" alt="User 2">
+                    <div class="position-relative mt-3">
+                        <p class="text-warning fs-5">⭐⭐⭐⭐⭐</p>
+                        <p class="fst-italic" style="color: rgb(255, 255, 255);">"Finally found a brand that actually understands the street aesthetic. 10/10."</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="feedback-card">
+                    <img class="feedback-bg" src="image/shape.png" alt="Shape">
+                    <img class="feedback-img shadow-sm" src="image/feedback3.png" alt="User 3">
+                    <div class="position-relative mt-3">
+                        <p class="text-warning fs-5">⭐⭐⭐⭐⭐</p>
+                        <p class="fst-italic" style="color: rgb(255, 255, 255);">"Super comfortable and the fit is perfect. Definitely copping more soon."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Hover Image -->
+    <footer class="bg-streets-dark text-white pt-5 pb-3">
+        <div class="container">
+            <div class="row gy-4 text-center text-md-start">
+                <div class="col-12 col-md-4">
+                    <h5 class="text-streets-pink mb-3 fw-bold">Useful Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-decoration-none text-streets-link">Home</a></li>
+                        <li><a href="about.html" class="text-decoration-none text-streets-link">About us</a></li>
+                        <li><a href="shop.html" class="text-decoration-none text-streets-link">Our Product</a></li>
+                        <li><a href="contact.html" class="text-decoration-none text-streets-link">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-4">
+                    <h5 class="text-streets-pink mb-3 fw-bold">Service</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-streets-link">Order Guide</a></li>
+                        <li><a href="#" class="text-decoration-none text-streets-link">Right of Withdrawal</a></li>
+                        <li><a href="#" class="text-decoration-none text-streets-link">Shipping & Payment</a></li>
+                        <li><a href="#" class="text-decoration-none text-streets-link">Return Policy</a></li>
+                        <li><a href="#" class="text-decoration-none text-streets-link">Term & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-4">
+                    <h5 class="text-streets-pink mb-3 fw-bold">Follow Us</h5>
+                       <div class="d-flex flex-column gap-3 align-items-center align-items-md-start">
+                            <a href="https://x.com/ameamsyr" target="_blank" title="Twitter" class="d-flex align-items-center text-decoration-none text-white">
+                                <div class="image-tw-hover me-2"></div> <span>Twitter</span>
+                            </a>
+                            <a href="https://www.instagram.com/ameamsyr/" target="_blank" title="Instagram" class="d-flex align-items-center text-decoration-none text-white">
+                                <div class="image-ig-hover me-2"></div> <span>Instagram</span>
+                            </a>
+                            <a href="https://www.tiktok.com/@ameamsyr?is_from_webapp=1&sender_device=pc" target="_blank" title="TikTok" class="d-flex align-items-center text-decoration-none text-white">
+                                <div class="image-tt-hover me-2"></div> <span>TikTok</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                    <div class="text-center small text-white-50 pt-4 mt-3 border-top border-secondary">
+                                &copy; 2025 ThriftLab. All rights reserved.
+                    <div>
+            </div>
+        </div>
+    </footer>
+	
+    <!-- Button Back to top (Anchor) -->
+	<button onclick="topFunction()" id="myBtn" title="Go to top"> &#8679; </button>
+
+    <!-- Cart & Checkout -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-streets-dark text-white">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title">Shopping Cart</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cart-items" class="mb-3" style="max-height: 300px; overflow-y: auto;">
+                        <p class="text-center text-muted">Your cart is empty!</p>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Total:</span>
+                        <span id="cart-total">0.00 RM</span>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-success w-100">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar Dropdown for Mobile Responsive -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        
+        // Popup //
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+        window.onload = function() {
+            setTimeout(() => { document.getElementById("popup").style.display = "block"; }, 1000);
+        };
+
+        // Music //
+        const music = document.getElementById('background-music');
+        const toggleMusicButton = document.getElementById('toggle-music');
+        const volumeSlider = document.getElementById('volume-slider');
+
+        let isPlaying = false; // Music is off //
+        music.volume = 0.5; // Set default volume to 50% //
+
+        // Play/Pause Logic //
+        toggleMusicButton.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                toggleMusicButton.textContent = 'Music On 🎸';
+            } else {
+                music.play();
+                toggleMusicButton.textContent = 'Music Off 😵‍💫';
+            }
+            isPlaying = !isPlaying; // Toggle the state //
+        });
+
+        // Volume Slider Logic //
+        volumeSlider.addEventListener('input', (e) => {
+            music.volume = e.target.value;
+        });
+
+        // Cart Logic //
+        function addToCart(name, price) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.name === name);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${name} has been added to the cart.`);
+        }
+
+		// Scroll To Top //
+        let mybutton = document.getElementById("myBtn");
+
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+</body>
+</html>
